@@ -30,7 +30,7 @@ const account1 = {
 };
 
 const account2 = {
-  owner: 'Jessica Davis',
+  owner: 'Ahmed Elmorsy',
   movements: [5000, 3400, -150, -790, -3210, -1000, 8500, -30],
   interestRate: 1.5,
   pin: 2222,
@@ -80,6 +80,19 @@ const inputClosePin = document.querySelector('.form__input--pin');
 
 /////////////////////////////////////////////////
 // Functions
+const displayDateCalc = date => {
+  const calcDays = (day1, day2) =>
+    Math.round(Math.abs((day2 - day1) / (1000 * 60 * 60 * 24)));
+
+  const dayPassed = calcDays(new Date(), date);
+  console.log(dayPassed);
+  if (dayPassed === 0) return `Today`;
+  if (dayPassed === 1) return `Yasterday`;
+  const months = `${date.getMonth() + 1}`.padStart(2, 0);
+  const days = `${date.getDate()}`.padStart(2, 0);
+  const years = date.getFullYear();
+  return `${days}/${months}/${years}`;
+};
 
 //DISPLAY MOVMENTS ON THE SCREEN.
 const displayMovments = function (acc, sort = false) {
@@ -90,11 +103,7 @@ const displayMovments = function (acc, sort = false) {
   movs.forEach(function (movement, index) {
     const type = movement > 0 ? 'deposit' : 'withdrawal';
     const date = new Date(acc.movementsDates[index]);
-    const years = date.getFullYear();
-    const months = `${date.getMonth() + 1}`.padStart(2, 0);
-    const days = `${date.getDate()}`.padStart(2, 0);
-    const displayDate = `${days}/${months}/${years}`;
-
+    const displayDate = displayDateCalc(date);
     const html = `
     <div class="movements__row">
       <div class="movements__type movements__type--${type}">${
@@ -233,9 +242,9 @@ btnLoan.addEventListener('click', function (e) {
 });
 
 let sorted = false;
-console.log(sorted);
 btnSort.addEventListener('click', function (e) {
   e.preventDefault();
   displayMovments(currentAccount, !sorted);
   sorted = !sorted;
 });
+/////////////////////////
