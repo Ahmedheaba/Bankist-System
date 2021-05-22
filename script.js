@@ -199,6 +199,8 @@ btnTransfer.addEventListener('click', function (e) {
   ) {
     currentAccount.movements.push(-amount);
     transferTo.movements.push(amount);
+    currentAccount.movementsDates.push(new Date().toISOString());
+    transferTo.movementsDates.push(new Date().toISOString());
     displayUI(currentAccount);
   }
   inputTransferAmount.value = inputTransferTo.value = '';
@@ -224,6 +226,7 @@ btnLoan.addEventListener('click', function (e) {
   const amount = +Math.trunc(inputLoanAmount.value);
   if (amount > 0 && currentAccount.movements.some(acc => acc > amount / 10)) {
     currentAccount.movements.push(amount);
+    currentAccount.movementsDates.push(new Date().toISOString());
     displayUI(currentAccount);
     inputLoanAmount.value = '';
   }
